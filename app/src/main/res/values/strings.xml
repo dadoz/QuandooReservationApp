@@ -10,6 +10,7 @@
     <string name="no_input_data">No Input data</string>
     <string name="customer_list_intro">Customers have already a reservation</string>
     <string name="table_list_intro">Table available for current customer</string>
-    <string name="table_selected">Table has been selected</string>
-    <string name="table_not_elected">Table is still free</string>
+    <string name="table_has_been_selected">Table has been selected</string>
+    <string name="table_not_selected">Table\n is free</string>
+    <string name="table_selected">Table\n is selected</string>
 </resources>

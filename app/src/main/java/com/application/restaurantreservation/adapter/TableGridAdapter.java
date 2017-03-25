@@ -1,6 +1,7 @@
 package com.application.restaurantreservation.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,10 +17,10 @@ import java.util.List;
 
 
 public class TableGridAdapter extends RecyclerView.Adapter<TableGridAdapter.ViewHolder> {
-    private List<?> items;
+    private List<Boolean> items;
     private WeakReference<OnItemClickListener> listener;
 
-    public TableGridAdapter(List<?> devices, WeakReference<OnItemClickListener> listener) {
+    public TableGridAdapter(List<Boolean> devices, WeakReference<OnItemClickListener> listener) {
         items = devices;
         this.listener = listener;
     }
@@ -36,12 +37,12 @@ public class TableGridAdapter extends RecyclerView.Adapter<TableGridAdapter.View
         Context context = vh.itemView.getContext();
 
         //retrie item
-        boolean isTableSelected = (Boolean) items.get(position);
+        boolean isTableSelected = items.get(position);
 
         vh.statusTextView.setText(context.getString(isTableSelected ?
-                R.string.table_selected : R.string.table_not_elected));
-        vh.tableLayoutItem.setBackgroundColor(ContextCompat.getColor(context,
-                isTableSelected ? R.color.colorAccent : android.R.color.white));
+                R.string.table_selected : R.string.table_not_selected));
+        vh.tableLayoutItem.setBackgroundColor(isTableSelected ?
+                ContextCompat.getColor(context, R.color.grey) : Color.TRANSPARENT);
         vh.itemView.setOnClickListener(v -> {
             if (listener.get() != null)
                 listener.get().onItemClick(v, position);
@@ -51,6 +52,10 @@ public class TableGridAdapter extends RecyclerView.Adapter<TableGridAdapter.View
     @Override
     public int getItemCount() {
         return items == null ? 0 : items.size();
+    }
+
+    public void selectTable(int position) {
+        items.set(position, true);
     }
 
 

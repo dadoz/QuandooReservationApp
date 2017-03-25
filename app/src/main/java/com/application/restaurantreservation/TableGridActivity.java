@@ -3,6 +3,7 @@ package com.application.restaurantreservation;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
         tableConnector = DaggerTableConnector.builder().networkModule(new NetworkModule()).build();
 
         bindView();
+        initActionbar();
         onInit();
     }
 
@@ -85,9 +87,8 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
      * @param items
      */
     private void initRecyclerView(List<?> items) {
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(new TableGridAdapter(items, new WeakReference<>(this)));
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        recyclerView.setAdapter(new TableGridAdapter((List<Boolean>) items, new WeakReference<>(this)));
     }
 
     @Override
@@ -114,17 +115,16 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
 
     @Override
     public void onDataRetrieved(List<?> items) {
-        Log.e("TAG", "---" + items.size());
-
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
         initRecyclerView(items);
-
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        Snackbar.make(tableGridLayout, getString(R.string.table_selected), Snackbar.LENGTH_SHORT)
+        Snackbar.make(tableGridLayout, getString(R.string.table_has_been_selected), Snackbar.LENGTH_SHORT)
                 .show();
+        ((TableGridAdapter) recyclerView.getAdapter()).selectTable(position);
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 }
