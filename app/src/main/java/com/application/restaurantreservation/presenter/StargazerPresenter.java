@@ -5,7 +5,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.application.restaurantreservation.managers.RetrofitManager;
-import com.application.restaurantreservation.model.Stargazer;
+import com.application.restaurantreservation.model.Customer;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class StargazerPresenter implements BasePresenter {
      */
     public static class Interactor implements BaseInteractor {
         private final WeakReference<Activity> activity;
-        private DisposableObserver<ArrayList<Stargazer>> disposable;
+        private DisposableObserver<ArrayList<Customer>> disposable;
 
         /**
          *
@@ -77,9 +77,9 @@ public class StargazerPresenter implements BasePresenter {
                     .switchIfEmpty(Observable.just(new ArrayList<>()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<ArrayList<Stargazer>>() {
+                    .subscribeWith(new DisposableObserver<ArrayList<Customer>>() {
                         @Override
-                        public void onNext(ArrayList<Stargazer> value) {
+                        public void onNext(ArrayList<Customer> value) {
                             if (listener.get() != null)
                                 listener.get().onFinishedRetrieveItems(value);
                         }

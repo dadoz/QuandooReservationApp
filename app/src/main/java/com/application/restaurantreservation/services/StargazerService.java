@@ -1,7 +1,7 @@
 package com.application.restaurantreservation.services;
 
 
-import com.application.restaurantreservation.model.Stargazer;
+import com.application.restaurantreservation.model.Customer;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,6 @@ import retrofit2.http.Path;
 
 public interface StargazerService {
     @GET("repos/{owner}/{repo}/stargazers")
-    Observable<ArrayList<Stargazer>> getStargazers(@Path("owner") String owner, @Path("repo") String repo);
+    Observable<ArrayList<Customer>> getStargazers(@Path("owner") String owner, @Path("repo") String repo);
 
 }

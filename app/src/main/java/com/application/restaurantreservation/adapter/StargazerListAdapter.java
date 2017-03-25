@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.restaurantreservation.R;
-import com.application.restaurantreservation.model.Stargazer;
+import com.application.restaurantreservation.model.Customer;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class StargazerListAdapter extends RecyclerView.Adapter<StargazerListAdap
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int position) {
-        Stargazer stargazer = (Stargazer) items.get(position);
+        Customer stargazer = (Customer) items.get(position);
         setAvatar(vh, stargazer.getAvatarUrl());
         vh.usernameTextview.setText(stargazer.getLogin());
     }
