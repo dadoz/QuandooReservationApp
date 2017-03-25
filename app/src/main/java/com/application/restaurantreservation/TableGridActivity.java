@@ -9,10 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.application.restaurantreservation.adapter.StargazerListAdapter;
+import com.application.restaurantreservation.adapter.CustomerListAdapter;
 import com.application.restaurantreservation.application.StargazersApplication;
-import com.application.restaurantreservation.presenter.StargazerPresenter;
-import com.application.restaurantreservation.presenter.StargazerView;
+import com.application.restaurantreservation.presenter.CustomerPresenter;
+import com.application.restaurantreservation.presenter.CustomerView;
 import com.application.restaurantreservation.utils.Utils;
 import com.application.restaurantreservation.views.EmptyView;
 
@@ -20,14 +20,14 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 
-public class TableGridActivity extends AppCompatActivity implements StargazerView {
+public class TableGridActivity extends AppCompatActivity implements CustomerView {
     private String owner;
     private String repo;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     EmptyView emptyView;
 
-    private StargazerPresenter presenter;
+    private CustomerPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +55,9 @@ public class TableGridActivity extends AppCompatActivity implements StargazerVie
      */
     private void onInitView() {
         initActionbar();
-        presenter = new StargazerPresenter();
-        presenter.init(new WeakReference<>(this),
-                new WeakReference<>(this), Utils.buildParams(owner, repo));
+//        presenter = new CustomerPresenter();
+//        presenter.init(new WeakReference<>(this),
+//                new WeakReference<>(this), Utils.buildParams(owner, repo));
     }
 
     /**
@@ -71,24 +71,6 @@ public class TableGridActivity extends AppCompatActivity implements StargazerVie
         }
     }
 
-    @Override
-    public void bindData(List<?> items, int i) {
-        progressBar.setVisibility(View.GONE);
-        emptyView.setVisibility(View.GONE);
-        initRecyclerView(items);
-    }
-
-
-    @Override
-    public void onRetrieveDataError(String error) {
-        //TODO implement it - show a view maybe
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
-        emptyView.setVisibility(View.VISIBLE);
-        Snackbar.make(findViewById(R.id.activity_main), R.string.retrieve_error,
-                Snackbar.LENGTH_SHORT).show();
-    }
-
     /**
      * init recycler view binding data by adapter
      * @param items
@@ -98,9 +80,8 @@ public class TableGridActivity extends AppCompatActivity implements StargazerVie
             return;
         }
         recyclerView.setVisibility(View.VISIBLE);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new StargazerListAdapter(items));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(new CustomerListAdapter(items));
     }
 
     @Override
@@ -113,5 +94,24 @@ public class TableGridActivity extends AppCompatActivity implements StargazerVie
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFailure(String message) {
+        //TODO implement it - show a view maybe
+        recyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        Snackbar.make(findViewById(R.id.activity_main), R.string.retrieve_error,
+                Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onDataRetrieved(List<?> items) {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.GONE);
+        initRecyclerView(items);
+
     }
 }

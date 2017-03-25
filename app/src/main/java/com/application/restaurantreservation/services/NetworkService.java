@@ -9,8 +9,10 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface StargazerService {
-    @GET("repos/{owner}/{repo}/stargazers")
-    Observable<ArrayList<Customer>> getStargazers(@Path("owner") String owner, @Path("repo") String repo);
+public interface NetworkService {
+    @GET("customer-list.json")
+    Observable<ArrayList<Customer>> getCustomerList();
 
+    @GET("table-map.json")
+    Observable<ArrayList<Boolean>> getTableMap();//or string
 }
