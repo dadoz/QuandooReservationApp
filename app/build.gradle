@@ -61,7 +61,12 @@ dependencies {
     compile 'frankiesardo:icepick:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
 
+    //test
     compile 'com.squareup.okhttp3:mockwebserver:3.6.0'
+
+    compile 'com.google.dagger:dagger:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
+
     //support libs
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:appcompat-v7:25.3.0'
