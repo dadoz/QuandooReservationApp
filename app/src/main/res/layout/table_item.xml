@@ -2,18 +2,19 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:id="@+id/tableLayoutItemId"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:padding="@dimen/margin_16">
     <ImageView
-        android:id="@+id/avatarImageViewId"
+        android:id="@+id/avatarTableImageViewId"
         android:layout_width="@dimen/icon_width"
         android:layout_height="@dimen/icon_width"
         android:background="@color/colorAccent"
         android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/usernameTextViewId"
+        android:id="@+id/statusTextViewId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

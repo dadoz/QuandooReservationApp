@@ -5,59 +5,68 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.application.restaurantreservation.adapter.CustomerListAdapter;
-import com.application.restaurantreservation.application.StargazersApplication;
-import com.application.restaurantreservation.presenter.CustomerPresenter;
-import com.application.restaurantreservation.presenter.CustomerView;
-import com.application.restaurantreservation.utils.Utils;
+import com.application.restaurantreservation.adapter.TableGridAdapter;
+import com.application.restaurantreservation.modules.DaggerTableConnector;
+import com.application.restaurantreservation.modules.NetworkModule;
+import com.application.restaurantreservation.modules.TableConnector;
+import com.application.restaurantreservation.presenter.BaseView;
+import com.application.restaurantreservation.presenter.TablesPresenter;
+import com.application.restaurantreservation.services.ReservationService;
 import com.application.restaurantreservation.views.EmptyView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import javax.inject.Inject;
 
-public class TableGridActivity extends AppCompatActivity implements CustomerView {
-    private String owner;
-    private String repo;
-    RecyclerView recyclerView;
-    ProgressBar progressBar;
-    EmptyView emptyView;
 
-    private CustomerPresenter presenter;
+public class TableGridActivity extends AppCompatActivity implements BaseView, TableGridAdapter.OnItemClickListener {
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private EmptyView emptyView;
+
+    @Inject
+    public ReservationService service;
+
+    private TablesPresenter presenter;
+    private View tableGridLayout;
+    private TableConnector tableConnector;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_grid);
-
-        repo = ((StargazersApplication) getApplication()).getRepo();
-        owner = ((StargazersApplication) getApplication()).getOwner();
+        tableConnector = DaggerTableConnector.builder().networkModule(new NetworkModule()).build();
 
         bindView();
-        onInitView();
+        onInit();
     }
 
     /**
      *
      */
     private void bindView() {
-        recyclerView = (RecyclerView) findViewById(R.id.stargazerRecyclerViewId);
-        progressBar = (ProgressBar) findViewById(R.id.stargazerProgressbarId);
-        emptyView = (EmptyView) findViewById(R.id.emptyViewId);
+        recyclerView = (RecyclerView) findViewById(R.id.tableRecyclerViewId);
+        progressBar = (ProgressBar) findViewById(R.id.tableProgressbarId);
+        emptyView = (EmptyView) findViewById(R.id.tableEmptyViewId);
+        tableGridLayout = findViewById(R.id.tableGridLayoutId);
     }
 
     /**
      * iit view and retrieve stargazers data
      */
-    private void onInitView() {
-        initActionbar();
-//        presenter = new CustomerPresenter();
-//        presenter.init(new WeakReference<>(this),
-//                new WeakReference<>(this), Utils.buildParams(owner, repo));
+    private void onInit() {
+        //inject activity on connector module
+        tableConnector.inject(this);
+
+        presenter = new TablesPresenter(new WeakReference<>(service),
+                new WeakReference<>(this));
+        presenter.getTableList();
     }
 
     /**
@@ -76,12 +85,9 @@ public class TableGridActivity extends AppCompatActivity implements CustomerView
      * @param items
      */
     private void initRecyclerView(List<?> items) {
-        if (items.size() == 0) {
-            return;
-        }
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//        recyclerView.setAdapter(new CustomerListAdapter(items));
+        recyclerView.setAdapter(new TableGridAdapter(items, new WeakReference<>(this)));
     }
 
     @Override
@@ -99,7 +105,6 @@ public class TableGridActivity extends AppCompatActivity implements CustomerView
     @Override
     public void onFailure(String message) {
         //TODO implement it - show a view maybe
-        recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         Snackbar.make(findViewById(R.id.activity_main), R.string.retrieve_error,
@@ -109,9 +114,17 @@ public class TableGridActivity extends AppCompatActivity implements CustomerView
 
     @Override
     public void onDataRetrieved(List<?> items) {
+        Log.e("TAG", "---" + items.size());
+
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
         initRecyclerView(items);
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Snackbar.make(tableGridLayout, getString(R.string.table_selected), Snackbar.LENGTH_SHORT)
+                .show();
     }
 }

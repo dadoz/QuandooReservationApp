@@ -1,14 +1,13 @@
 package com.application.restaurantreservation.modules;
 
-import com.application.restaurantreservation.MainActivity;
+import com.application.restaurantreservation.TableGridActivity;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Component;
 
 @Singleton
 @Component(modules = {NetworkModule.class,})
-public interface DepsConnector {
-    void inject(MainActivity mainActivity);
+public interface TableConnector {
+    void inject(TableGridActivity activity);
 }

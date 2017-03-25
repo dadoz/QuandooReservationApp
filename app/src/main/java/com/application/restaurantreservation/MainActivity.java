@@ -1,16 +1,19 @@
 package com.application.restaurantreservation;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
 import com.application.restaurantreservation.adapter.CustomerListAdapter;
+import com.application.restaurantreservation.modules.CustomerConnector;
+import com.application.restaurantreservation.modules.DaggerCustomerConnector;
+import com.application.restaurantreservation.modules.NetworkModule;
 import com.application.restaurantreservation.presenter.CustomerPresenter;
-import com.application.restaurantreservation.presenter.CustomerView;
+import com.application.restaurantreservation.presenter.BaseView;
 import com.application.restaurantreservation.services.ReservationService;
 
 import java.lang.ref.WeakReference;
@@ -19,20 +22,23 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class MainActivity extends BaseActivity implements CustomerView, CustomerListAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements BaseView, CustomerListAdapter.OnItemClickListener {
     @Inject
     public ReservationService service;
     private View  customerProgressbarView;
     private RecyclerView customerRecyclerView;
     private View emptyCustomerView;
     String TAG = "TAG";
+    private CustomerConnector customerConnector;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_list);
+        customerConnector = DaggerCustomerConnector.builder().networkModule(new NetworkModule()).build();
 
         bindView();
-        init();
+        onInit();
     }
 
     /**
@@ -47,9 +53,9 @@ public class MainActivity extends BaseActivity implements CustomerView, Customer
     /**
      * init view to handle button in custom view interaction
      */
-    private void init() {
+    private void onInit() {
         //inject activity on depsConnector module
-        getDeps().inject(this);
+        customerConnector.inject(this);
 
         //init presenter
         CustomerPresenter presenter = new CustomerPresenter(new WeakReference<>(service),
@@ -59,7 +65,6 @@ public class MainActivity extends BaseActivity implements CustomerView, Customer
 
     @Override
     public void onDataRetrieved(List<?> items) {
-        Log.e(TAG, "---" + items.size());
         customerProgressbarView.setVisibility(View.GONE);
         customerRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         customerRecyclerView.setAdapter(new CustomerListAdapter(items, new WeakReference<CustomerListAdapter.OnItemClickListener>(this)));

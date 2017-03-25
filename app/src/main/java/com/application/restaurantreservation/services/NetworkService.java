@@ -14,5 +14,5 @@ public interface NetworkService {
     Observable<ArrayList<Customer>> getCustomerList();
 
     @GET("table-map.json")
-    Observable<ArrayList<Boolean>> getTableMap();//or string
+    Observable<Boolean[]> getTableMap();
 }

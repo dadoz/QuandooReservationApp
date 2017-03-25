@@ -1,10 +1,13 @@
 package com.application.restaurantreservation.services;
 
+import android.util.Log;
+
 import com.application.restaurantreservation.model.Customer;
 import com.application.restaurantreservation.presenter.BasePresenter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -62,15 +65,16 @@ public class ReservationService {
     public Disposable getTableList(WeakReference<BasePresenter> listener) {
         return networkService
                 .getTableMap()
-                .filter(list -> list != null && list.size() != 0)
-                .switchIfEmpty(Observable.just(new ArrayList<>()))
+                .filter(list -> list != null && list.length != 0)
+                .switchIfEmpty(Observable.just(new Boolean[]{}))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<ArrayList<Boolean>>() {
+                .subscribeWith(new DisposableObserver<Boolean[]>() {
                     @Override
-                    public void onNext(ArrayList<Boolean> value) {
+                    public void onNext(Boolean[] value) {
+                        Log.e(TAG, "hye");
                         if (listener.get() != null)
-                            listener.get().onFinishedRetrieveItems(value);
+                            listener.get().onFinishedRetrieveItems(Arrays.asList(value));
                     }
 
                     @Override
@@ -83,7 +87,6 @@ public class ReservationService {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
     }
