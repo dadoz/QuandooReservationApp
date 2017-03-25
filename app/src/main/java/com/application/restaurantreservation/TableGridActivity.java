@@ -81,7 +81,7 @@ public class TableGridActivity extends AppCompatActivity implements CustomerView
         }
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(new CustomerListAdapter(items));
+//        recyclerView.setAdapter(new CustomerListAdapter(items));
     }
 
     @Override

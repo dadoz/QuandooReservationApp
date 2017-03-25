@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.application.restaurantreservation.adapter.CustomerListAdapter;
@@ -18,13 +19,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 
-public class MainActivity extends BaseActivity implements CustomerView {
+public class MainActivity extends BaseActivity implements CustomerView, CustomerListAdapter.OnItemClickListener {
     @Inject
     public ReservationService service;
     private View  customerProgressbarView;
     private RecyclerView customerRecyclerView;
     private View emptyCustomerView;
-
+    String TAG = "TAG";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +42,6 @@ public class MainActivity extends BaseActivity implements CustomerView {
         customerRecyclerView = ((RecyclerView) findViewById(R.id.customerRecyclerViewId));
         customerProgressbarView = findViewById(R.id.customerProgressbarId);
         emptyCustomerView = findViewById(R.id.emptyCustomerViewId);
-        findViewById(R.id.testTableGridButtonId)
-                .setOnClickListener(v -> startActivity(new Intent(this, TableGridActivity.class)));
     }
 
     /**
@@ -60,14 +59,20 @@ public class MainActivity extends BaseActivity implements CustomerView {
 
     @Override
     public void onDataRetrieved(List<?> items) {
+        Log.e(TAG, "---" + items.size());
         customerProgressbarView.setVisibility(View.GONE);
         customerRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        customerRecyclerView.setAdapter(new CustomerListAdapter(items));
+        customerRecyclerView.setAdapter(new CustomerListAdapter(items, new WeakReference<CustomerListAdapter.OnItemClickListener>(this)));
     }
 
     @Override
     public void onFailure(String error) {
         customerProgressbarView.setVisibility(View.GONE);
         emptyCustomerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        startActivity(new Intent(this, TableGridActivity.class));
     }
 }

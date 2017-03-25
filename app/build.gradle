@@ -11,7 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "GITHUB_ENDPOINT", "\"https://api.github.com/\""
+        buildConfigField "String", "SERVICE_ENDPOINT", "\"https://s3-eu-west-1.amazonaws.com/quandoo-assessment/\""
 
     }
     compileOptions {

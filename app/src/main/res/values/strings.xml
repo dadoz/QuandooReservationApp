@@ -1,4 +1,5 @@
 <resources>
+    <string name="customer_id_description">CustId %d</string>
     <string name="app_name">Restaurant Reservation</string>
     <string name="owner_hint">owner</string>
     <string name="repo_hint">repo</string>

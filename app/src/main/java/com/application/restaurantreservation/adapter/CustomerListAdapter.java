@@ -11,14 +11,17 @@ import com.application.restaurantreservation.R;
 import com.application.restaurantreservation.model.Customer;
 import com.bumptech.glide.Glide;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 
 public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.ViewHolder> {
     private List<?> items;
+    WeakReference<OnItemClickListener> listener;
 
-    public CustomerListAdapter(List<?> devices) {
+    public CustomerListAdapter(List<?> devices, WeakReference<OnItemClickListener> listener) {
         items = devices;
+        this.listener = listener;
     }
 
     @Override
@@ -33,7 +36,11 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         Customer customer = (Customer) items.get(position);
         vh.firstNameView.setText(customer.getCustomerFirstName());
         vh.lastNameView.setText(customer.getCustomerLastName());
-        vh.userIdView.setText(customer.getId());
+        vh.userIdView.setText(String.format(vh.itemView.getContext().getString(R.string.customer_id_description), customer.getId()));
+        vh.itemView.setOnClickListener(v -> {
+            if (listener.get() != null)
+                listener.get().onItemClick(v, position);
+        });
     }
 
     @Override
@@ -61,4 +68,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
 }

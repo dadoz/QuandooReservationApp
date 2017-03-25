@@ -9,11 +9,14 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
+
 
 public class CustomerPresenter implements BasePresenter {
     private static final String TAG = "CustomerPresenter";
     private static WeakReference<ReservationService> serviceRef;
     private final WeakReference<CustomerView> customerViewRef;
+    private Disposable disposable;
 
     public CustomerPresenter(WeakReference<ReservationService> service, WeakReference<CustomerView> view) {
         serviceRef = service;
@@ -25,7 +28,7 @@ public class CustomerPresenter implements BasePresenter {
      */
     public void getCustomerList() {
         if (serviceRef.get() != null)
-            serviceRef.get().retrieveItems(new WeakReference<>(this));
+            disposable = serviceRef.get().getCustomerList(new WeakReference<>(this));
     }
 
     @Override
@@ -36,6 +39,7 @@ public class CustomerPresenter implements BasePresenter {
 
     @Override
     public void unsubscribe() {
+        disposable.dispose();
     }
 
     @Override

@@ -13,7 +13,7 @@ public class Customer {
     private String customerLastName;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private long id;
 
     public String getCustomerFirstName() {
         return customerFirstName;
@@ -31,7 +31,7 @@ public class Customer {
         this.customerLastName = customerLastName;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 

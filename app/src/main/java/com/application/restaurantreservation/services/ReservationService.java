@@ -20,7 +20,6 @@ public class ReservationService {
      * retrieve data from server
      */
     private final NetworkService networkService;
-    private DisposableObserver<ArrayList<Customer>> disposable;
 
     /**
      *
@@ -30,13 +29,8 @@ public class ReservationService {
         this.networkService = service;
     }
 
-    public void unbindSubscription() {
-        if (disposable != null)
-            disposable.dispose();
-    }
-
-    public Disposable retrieveItems(WeakReference<BasePresenter> listener) {
-        disposable = networkService
+    public Disposable getCustomerList(WeakReference<BasePresenter> listener) {
+        return networkService
                 .getCustomerList()
                 .filter(list -> list != null && list.size() != 0)
                 .switchIfEmpty(Observable.just(new ArrayList<>()))
@@ -62,6 +56,35 @@ public class ReservationService {
 
                     }
                 });
-        return disposable;
+    }
+
+
+    public Disposable getTableList(WeakReference<BasePresenter> listener) {
+        return networkService
+                .getTableMap()
+                .filter(list -> list != null && list.size() != 0)
+                .switchIfEmpty(Observable.just(new ArrayList<>()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<ArrayList<Boolean>>() {
+                    @Override
+                    public void onNext(ArrayList<Boolean> value) {
+                        if (listener.get() != null)
+                            listener.get().onFinishedRetrieveItems(value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (listener.get() != null)
+                            listener.get().onError(e.getMessage());
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

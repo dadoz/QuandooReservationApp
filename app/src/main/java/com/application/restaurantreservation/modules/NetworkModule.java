@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
-    private static String baseUrlEndpoint = BuildConfig.GITHUB_ENDPOINT;
+    private static String baseUrlEndpoint = BuildConfig.SERVICE_ENDPOINT;
 
     @Provides
     @Singleton
