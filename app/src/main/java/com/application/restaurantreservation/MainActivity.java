@@ -11,7 +11,6 @@ import com.application.restaurantreservation.adapter.CustomerListAdapter;
 import com.application.restaurantreservation.backgroundServices.ClearReservationsService;
 import com.application.restaurantreservation.components.CustomerComponent;
 import com.application.restaurantreservation.components.DaggerCustomerComponent;
-import com.application.restaurantreservation.db.DataManager;
 import com.application.restaurantreservation.modules.NetworkModule;
 import com.application.restaurantreservation.presenter.CustomerPresenter;
 import com.application.restaurantreservation.presenter.BaseView;

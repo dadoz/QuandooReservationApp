@@ -1,14 +1,11 @@
 package com.application.restaurantreservation.services;
 
-import android.util.Log;
-
 import com.application.restaurantreservation.db.DataManager;
 import com.application.restaurantreservation.model.Customer;
 import com.application.restaurantreservation.presenter.BasePresenter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;

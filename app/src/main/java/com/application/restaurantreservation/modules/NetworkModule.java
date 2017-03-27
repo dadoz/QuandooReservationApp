@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
-    private static String baseUrlEndpoint = BuildConfig.SERVICE_ENDPOINT;
+    public static String baseUrlEndpoint = BuildConfig.SERVICE_ENDPOINT;
     private final Context context;
 
     public NetworkModule(Context context) {
