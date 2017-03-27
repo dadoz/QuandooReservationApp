@@ -13,6 +13,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "SERVICE_ENDPOINT", "\"https://s3-eu-west-1.amazonaws.com/quandoo-assessment/\""
 
+        multiDexEnabled true
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -67,7 +68,7 @@ dependencies {
     compile 'com.google.dagger:dagger:2.10'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
 
-    compile 'org.mockito:mockito-core:2.7.19'
+    compile 'org.mockito:mockito-android:2.7.19'
 
     //support libs
     compile 'com.android.support:appcompat-v7:25.3.0'

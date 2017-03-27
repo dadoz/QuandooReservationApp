@@ -128,11 +128,10 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return
      */
     private Customer createCustomer(Cursor cursor) {
-        Customer customer = new Customer();
-        customer.setId(cursor.getInt(cursor.getColumnIndex(CUSTOMER_COLUMN_CUSTOMER_ID)));
-        customer.setCustomerFirstName(cursor.getString(cursor.getColumnIndex(CUSTOMER_COLUMN_CUSTOMER_FIRST_NAME)));
-        customer.setCustomerLastName(cursor.getString(cursor.getColumnIndex(CUSTOMER_COLUMN_CUSTOMER_LAST_NAME)));
-        return customer;
+        int id = cursor.getInt(cursor.getColumnIndex(CUSTOMER_COLUMN_CUSTOMER_ID));
+        String firstName = cursor.getString(cursor.getColumnIndex(CUSTOMER_COLUMN_CUSTOMER_FIRST_NAME));
+        String lastName = cursor.getString(cursor.getColumnIndex(CUSTOMER_COLUMN_CUSTOMER_LAST_NAME));
+        return new Customer(id, firstName, lastName);
     }
 
     protected Long insertCustomer(Customer customer) throws Exception {

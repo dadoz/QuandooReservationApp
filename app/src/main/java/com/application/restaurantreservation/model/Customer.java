@@ -15,6 +15,11 @@ public class Customer {
     @Expose
     private int id;
 
+    public Customer(int id, String first, String last) {
+        this.id = id;
+        this.customerFirstName = first;
+        this.customerLastName = last;
+    }
     public String getCustomerFirstName() {
         return customerFirstName;
     }
