@@ -1,11 +1,18 @@
 package com.application.restaurantreservation.modules;
 
+import android.content.Context;
+
 import com.application.restaurantreservation.BuildConfig;
+import com.application.restaurantreservation.db.DataManager;
 import com.application.restaurantreservation.services.NetworkService;
 import com.application.restaurantreservation.services.ReservationService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -17,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
     private static String baseUrlEndpoint = BuildConfig.SERVICE_ENDPOINT;
+    private final Context context;
 
     @Provides
     @Singleton
@@ -24,7 +32,7 @@ public class NetworkModule {
         return new Retrofit.Builder()
                 .baseUrl(baseUrlEndpoint)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(getGson()))
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
         //.create(NetworkService.class);
     }
@@ -41,11 +49,39 @@ public class NetworkModule {
     @Singleton
     @SuppressWarnings("unused")
     public ReservationService providesService(
-            NetworkService networkService) {
-        return new ReservationService(networkService);
+            NetworkService networkService, DataManager dataManager) {
+        return new ReservationService(networkService, dataManager);
     }
 
-    private Gson getGson() {
-        return new GsonBuilder().create();
+
+    public NetworkModule(Context context) {
+        this.context = context;
+    }
+
+    @Provides
+    @ApplicationContext
+    Context provideContext() {
+        return context;
+    }
+
+    @Provides
+    @DatabaseInfo
+    String provideDatabaseName() {
+        return "restaurant-reservations.db";
+    }
+
+    @Provides
+    @DatabaseInfo
+    Integer provideDatabaseVersion() {
+        return 1;
+    }
+
+    @Qualifier
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface DatabaseInfo {
+    }
+    @Qualifier
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface ApplicationContext {
     }
 }

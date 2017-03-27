@@ -1,11 +1,20 @@
 package com.application.restaurantreservation.utils;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 import android.util.SparseArray;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import io.reactivex.Observable;
 
 public class Utils {
+
+    private static final String TAG = "Utils";
 
     /**
      * read file from assets, depending on filename provided
@@ -29,4 +38,9 @@ public class Utils {
             return null;
         }
     }
+
+    public static String stringify(List<Boolean> list) {
+        return Arrays.toString(list.toArray());
+    }
+
 }

@@ -2,14 +2,14 @@ package com.application.restaurantreservation.services;
 
 import android.util.Log;
 
+import com.application.restaurantreservation.db.DataManager;
 import com.application.restaurantreservation.model.Customer;
 import com.application.restaurantreservation.presenter.BasePresenter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.inject.Inject;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -23,25 +23,29 @@ public class ReservationService {
      * retrieve data from server
      */
     private final NetworkService networkService;
+    private final DataManager dbDataManager;
 
     /**
      *
      * @param service
      */
-    public ReservationService(NetworkService service) {
+    public ReservationService(NetworkService service, DataManager dbDataManager) {
         this.networkService = service;
+        this.dbDataManager = dbDataManager;
     }
 
     public Disposable getCustomerList(WeakReference<BasePresenter> listener) {
-        return networkService
-                .getCustomerList()
+        return Observable
+                .concat(dbDataManager.getCustomerList(),
+                        networkService.getCustomerList().doOnNext(dbDataManager::createAllCustomer))
                 .filter(list -> list != null && list.size() != 0)
-                .switchIfEmpty(Observable.just(new ArrayList<>()))
+                .first(new ArrayList<>())
+                .toObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<ArrayList<Customer>>() {
+                .subscribeWith(new DisposableObserver<List<Customer>>() {
                     @Override
-                    public void onNext(ArrayList<Customer> value) {
+                    public void onNext(List<Customer> value) {
                         if (listener.get() != null)
                             listener.get().onFinishedRetrieveItems(value);
                     }
@@ -59,22 +63,24 @@ public class ReservationService {
 
                     }
                 });
+
     }
 
 
     public Disposable getTableList(WeakReference<BasePresenter> listener) {
-        return networkService
-                .getTableMap()
-                .filter(list -> list != null && list.length != 0)
-                .switchIfEmpty(Observable.just(new Boolean[]{}))
+        return Observable
+                .concat(dbDataManager.getTableList(),
+                        networkService.getTableList().doOnNext(dbDataManager::createAllTables))
+                .filter(list -> list != null && list.size() != 0)
+                .first(new ArrayList<>())
+                .toObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<Boolean[]>() {
+                .subscribeWith(new DisposableObserver<List<Boolean>>() {
                     @Override
-                    public void onNext(Boolean[] value) {
-                        Log.e(TAG, "hye");
+                    public void onNext(List<Boolean> value) {
                         if (listener.get() != null)
-                            listener.get().onFinishedRetrieveItems(Arrays.asList(value));
+                            listener.get().onFinishedRetrieveItems(value);
                     }
 
                     @Override
@@ -82,7 +88,6 @@ public class ReservationService {
                         e.printStackTrace();
                         if (listener.get() != null)
                             listener.get().onError(e.getMessage());
-
                     }
 
                     @Override

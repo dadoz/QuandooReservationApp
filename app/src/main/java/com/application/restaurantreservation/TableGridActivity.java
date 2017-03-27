@@ -4,17 +4,15 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.application.restaurantreservation.adapter.TableGridAdapter;
-import com.application.restaurantreservation.modules.DaggerTableConnector;
+import com.application.restaurantreservation.components.DaggerTableComponent;
+import com.application.restaurantreservation.components.TableComponent;
 import com.application.restaurantreservation.modules.NetworkModule;
-import com.application.restaurantreservation.modules.TableConnector;
 import com.application.restaurantreservation.presenter.BaseView;
 import com.application.restaurantreservation.presenter.TablesPresenter;
 import com.application.restaurantreservation.services.ReservationService;
@@ -36,13 +34,14 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
 
     private TablesPresenter presenter;
     private View tableGridLayout;
-    private TableConnector tableConnector;
+    private TableComponent tableConnector;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_grid);
-        tableConnector = DaggerTableConnector.builder().networkModule(new NetworkModule()).build();
+        tableConnector = DaggerTableComponent.builder()
+                .networkModule(new NetworkModule(getApplicationContext())).build();
 
         bindView();
         initActionbar();

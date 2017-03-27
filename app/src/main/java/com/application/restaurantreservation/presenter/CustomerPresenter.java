@@ -1,5 +1,6 @@
 package com.application.restaurantreservation.presenter;
 
+import com.application.restaurantreservation.db.DataManager;
 import com.application.restaurantreservation.services.ReservationService;
 
 import java.lang.ref.WeakReference;

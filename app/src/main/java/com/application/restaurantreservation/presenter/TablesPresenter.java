@@ -25,8 +25,6 @@ public class TablesPresenter implements BasePresenter {
      * get customer list
      */
     public void getTableList() {
-        Log.e(TAG, "---");
-
         if (serviceRef.get() != null)
             disposable = serviceRef.get().getTableList(new WeakReference<>(this));
     }
