@@ -63,7 +63,7 @@ public class ClearReservationsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //schedule clear reservation
-        timer.scheduleAtFixedRate(new CustomTimerTask(), 0, 600000);
+        timer.scheduleAtFixedRate(new CustomTimerTask(), 0, 60 * 1000 * 10);
 
         //not recreate after service has been destroyed
         return START_NOT_STICKY;
