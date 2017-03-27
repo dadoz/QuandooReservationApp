@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 
 @Singleton
@@ -46,5 +45,9 @@ public class DataManager {
 
     public void updateTable(List<Boolean> items) {
         mDbHelper.updateTable(items);
+    }
+
+    public void clearAllReservations() {
+        mDbHelper.truncateTableTbl();
     }
 }

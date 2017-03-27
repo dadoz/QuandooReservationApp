@@ -26,6 +26,10 @@ public class NetworkModule {
     private static String baseUrlEndpoint = BuildConfig.SERVICE_ENDPOINT;
     private final Context context;
 
+    public NetworkModule(Context context) {
+        this.context = context;
+    }
+
     @Provides
     @Singleton
     Retrofit provideCall() {
@@ -34,7 +38,6 @@ public class NetworkModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                 .build();
-        //.create(NetworkService.class);
     }
 
     @Provides
@@ -51,11 +54,6 @@ public class NetworkModule {
     public ReservationService providesService(
             NetworkService networkService, DataManager dataManager) {
         return new ReservationService(networkService, dataManager);
-    }
-
-
-    public NetworkModule(Context context) {
-        this.context = context;
     }
 
     @Provides

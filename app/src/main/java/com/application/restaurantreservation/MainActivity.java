@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.application.restaurantreservation.adapter.CustomerListAdapter;
+import com.application.restaurantreservation.backgroundServices.ClearReservationsService;
 import com.application.restaurantreservation.components.CustomerComponent;
 import com.application.restaurantreservation.components.DaggerCustomerComponent;
 import com.application.restaurantreservation.db.DataManager;
@@ -26,9 +27,6 @@ public class MainActivity extends AppCompatActivity implements BaseView, Custome
     @Inject
     public ReservationService service;
 
-    @Inject
-    DataManager dataManager;
-
     private View  customerProgressbarView;
     private RecyclerView customerRecyclerView;
     private View emptyCustomerView;
@@ -45,6 +43,20 @@ public class MainActivity extends AppCompatActivity implements BaseView, Custome
 
         bindView();
         onInit();
+        initService();
+    }
+
+    /**
+     * init service to clear reservation
+     *
+     * - start in NOT_STICKY mode (and not bindable)
+     */
+    private void initService() {
+        // use this to start and trigger a service
+        Intent intentService = new Intent(getApplicationContext(),
+                ClearReservationsService.class);
+        // potentially add data to the intent
+        getApplicationContext().startService(intentService);
     }
 
     /**

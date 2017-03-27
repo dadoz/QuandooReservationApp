@@ -13,4 +13,5 @@
     <string name="table_has_been_selected">Table has been selected</string>
     <string name="table_not_selected">Table\n is free</string>
     <string name="table_selected">Table\n is selected</string>
+    <string name="service_name">clear_reservation_service</string>
 </resources>

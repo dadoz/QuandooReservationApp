@@ -32,8 +32,6 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
 
     @Inject
     public ReservationService service;
-    @Inject
-    public DataManager dataManager;
 
     private TablesPresenter presenter;
     private View tableGridLayout;
@@ -110,7 +108,7 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
         //TODO implement it - show a view maybe
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
-        Snackbar.make(findViewById(R.id.activity_main), R.string.retrieve_error,
+        Snackbar.make(findViewById(R.id.tableGridLayoutId), R.string.retrieve_error,
                 Snackbar.LENGTH_SHORT).show();
 
     }
@@ -131,7 +129,7 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
 
         //set table as reserved
         try {
-            dataManager.updateTable(((TableGridAdapter) recyclerView.getAdapter()).getItems());
+            service.updateTable(((TableGridAdapter) recyclerView.getAdapter()).getItems());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -33,6 +33,11 @@ public class ReservationService {
         this.dbDataManager = dbDataManager;
     }
 
+    /**
+     *
+     * @param listener
+     * @return
+     */
     public Disposable getCustomerList(WeakReference<BasePresenter> listener) {
         return Observable
                 .concat(dbDataManager.getCustomerList(),
@@ -66,6 +71,11 @@ public class ReservationService {
     }
 
 
+    /**
+     *
+     * @param listener
+     * @return
+     */
     public Disposable getTableList(WeakReference<BasePresenter> listener) {
         return Observable
                 .concat(dbDataManager.getTableList(),
@@ -93,5 +103,13 @@ public class ReservationService {
                     public void onComplete() {
                     }
                 });
+    }
+
+    /**
+     *
+     * @param items
+     */
+    public void updateTable(List<Boolean> items) {
+        dbDataManager.updateTable(items);
     }
 }

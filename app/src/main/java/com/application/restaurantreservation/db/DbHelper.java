@@ -23,7 +23,7 @@ import io.reactivex.Observable;
 @Singleton
 public class DbHelper extends SQLiteOpenHelper {
 
-    //USER TABLE
+    //customer TABLE
     public static final String CUSTOMER_TABLE_NAME = "customers";
     public static final String CUSTOMER_COLUMN_CUSTOMER_ID = "id";
     public static final String CUSTOMER_COLUMN_CUSTOMER_FIRST_NAME = "customer_first_name";
@@ -31,7 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String CUSTOMER_COLUMN_CUSTOMER_CREATED_AT = "created_at";
     public static final String CUSTOMER_COLUMN_CUSTOMER_UPDATED_AT = "updated_at";
 
-    //USER TABLE
+    //tables TBL
     public static final String TABLE_TBL_NAME = "tables";
     public static final String TABLE_COLUMN_ID = "id";
     public static final String TABLE_COLUMN_RESERVATION_ARRAY = "reservation_array";
@@ -117,9 +117,9 @@ public class DbHelper extends SQLiteOpenHelper {
     /**
      * truncate table
      */
-    private void truncateCustomerTable() {
+    protected void truncateTableTbl() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("TRUNCATE TABLE " + CUSTOMER_TABLE_NAME);
+        db.execSQL("DELETE FROM " + TABLE_TBL_NAME);
     }
 
     /**
@@ -161,7 +161,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     "SELECT * FROM "
                             + TABLE_TBL_NAME, new String[]{});
             boolean moveToFirst = cursor.moveToFirst();
-            return Observable.fromArray(cursor.getString(cursor.getColumnIndex(TABLE_COLUMN_RESERVATION_ARRAY)).split(", "))
+            return Observable.fromArray(moveToFirst ? cursor.getString(cursor.getColumnIndex(TABLE_COLUMN_RESERVATION_ARRAY)).split(", ") : new String[]{})
                     .filter(strings -> strings != null)
                     .map(Boolean::valueOf)
                     .toList()

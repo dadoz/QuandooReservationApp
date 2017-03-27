@@ -17,6 +17,12 @@
         </activity>
 
         <activity android:name=".TableGridActivity"/>
+
+        <service
+            android:name=".backgroundServices.ClearReservationsService"
+            android:label="@string/service_name">
+        </service>
+
     </application>
 
 </manifest>
