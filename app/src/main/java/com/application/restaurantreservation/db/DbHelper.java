@@ -200,4 +200,9 @@ public class DbHelper extends SQLiteOpenHelper {
             throw e;
         }
     }
+
+    public void truncateCustomerTbl() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + CUSTOMER_TABLE_NAME);
+    }
 }

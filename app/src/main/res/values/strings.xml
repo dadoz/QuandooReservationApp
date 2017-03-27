@@ -11,7 +11,9 @@
     <string name="customer_list_intro">Customers have already a reservation</string>
     <string name="table_list_intro">Table available for current customer</string>
     <string name="table_has_been_selected">Table has been selected</string>
-    <string name="table_not_selected">Table\n is free</string>
-    <string name="table_selected">Table\n is selected</string>
+    <string name="table_not_selected">Still free</string>
+    <string name="table_selected">Reserved</string>
     <string name="service_name">clear_reservation_service</string>
+    <string name="customers_actionbar">Customers</string>
+    <string name="tables_actionbar">Reservations</string>
 </resources>

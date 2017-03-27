@@ -42,7 +42,7 @@ public class TableGridAdapter extends RecyclerView.Adapter<TableGridAdapter.View
         vh.statusTextView.setText(context.getString(isTableSelected ?
                 R.string.table_selected : R.string.table_not_selected));
         vh.tableLayoutItem.setBackgroundColor(isTableSelected ?
-                ContextCompat.getColor(context, R.color.grey) : Color.TRANSPARENT);
+                ContextCompat.getColor(context, R.color.light_yellow) : Color.TRANSPARENT);
         vh.itemView.setOnClickListener(v -> {
             if (listener.get() != null)
                 listener.get().onItemClick(v, position);

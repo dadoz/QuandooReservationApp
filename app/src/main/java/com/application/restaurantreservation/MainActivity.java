@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements BaseView, Custome
 
         bindView();
         onInit();
+        initActionbar();
         initService();
     }
 
@@ -56,6 +57,12 @@ public class MainActivity extends AppCompatActivity implements BaseView, Custome
                 ClearReservationsService.class);
         // potentially add data to the intent
         getApplicationContext().startService(intentService);
+    }
+
+    private void initActionbar() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.customers_actionbar));
+        }
     }
 
     /**
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements BaseView, Custome
 
     @Override
     public void onFailure(String error) {
+        customerRecyclerView.setVisibility(View.GONE);
         customerProgressbarView.setVisibility(View.GONE);
         emptyCustomerView.setVisibility(View.VISIBLE);
     }

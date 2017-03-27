@@ -5,13 +5,14 @@
     android:background="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
     android:padding="@dimen/margin_16">
     <ImageView
         android:id="@+id/avatarImageViewId"
-        android:layout_width="@dimen/icon_width"
-        android:layout_height="@dimen/icon_width"
-        android:background="@color/colorAccent"
-        android:layout_gravity="center_vertical"/>
+        android:layout_width="@dimen/small_icon_width"
+        android:layout_height="@dimen/small_icon_width"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_customer"/>
     <TextView
         android:id="@+id/firstNameTextViewId"
         android:layout_toRightOf="@id/avatarImageViewId"
@@ -21,7 +22,7 @@
         android:layout_marginLeft="@dimen/margin_16"
         android:text="first name"
         android:textColor="@color/colorAccent"
-        android:textSize="@dimen/font_24"/>
+        android:textSize="@dimen/font_18"/>
     <TextView
         android:id="@+id/lastNameTextViewId"
         android:layout_toRightOf="@id/avatarImageViewId"

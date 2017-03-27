@@ -50,4 +50,11 @@ public class DataManager {
     public void clearAllReservations() {
         mDbHelper.truncateTableTbl();
     }
+
+    public void clearAllCustomers() {
+        mDbHelper.truncateCustomerTbl();
+    }
+    public void close() {
+        mDbHelper.close();
+    }
 }

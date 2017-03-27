@@ -76,6 +76,7 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
      */
     private void initActionbar() {
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.tables_actionbar));
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -106,6 +107,7 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
     @Override
     public void onFailure(String message) {
         //TODO implement it - show a view maybe
+        recyclerView.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         Snackbar.make(findViewById(R.id.tableGridLayoutId), R.string.retrieve_error,

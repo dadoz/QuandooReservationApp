@@ -11,7 +11,7 @@
         android:id="@+id/avatarTableImageViewId"
         android:layout_width="@dimen/icon_width"
         android:layout_height="@dimen/icon_width"
-        android:background="@color/colorAccent"
+        android:src="@mipmap/ic_table"
         android:layout_gravity="center"/>
     <TextView
         android:id="@+id/statusTextViewId"

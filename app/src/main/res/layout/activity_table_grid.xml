@@ -4,17 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/tableGridLayoutId"
-    android:padding="@dimen/margin_16"
     android:background="?attr/selectableItemBackground"
     tools:context="com.application.restaurantreservation.MainActivity">
-    <TextView
-        android:id="@+id/tableDescriptionTextId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/font_18"
-        android:layout_marginBottom="@dimen/margin_8"
-        android:text="@string/table_list_intro"/>
 
     <com.application.restaurantreservation.views.EmptyView
         android:id="@+id/tableEmptyViewId"
@@ -28,7 +19,7 @@
         android:layout_centerInParent="true"
         style="@style/Widget.AppCompat.ProgressBar"/>
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/tableDescriptionTextId"
+        android:layout_marginTop="@dimen/margin_8"
         android:id="@+id/tableRecyclerViewId"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
