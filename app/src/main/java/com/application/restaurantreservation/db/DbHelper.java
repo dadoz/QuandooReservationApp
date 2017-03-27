@@ -188,4 +188,17 @@ public class DbHelper extends SQLiteOpenHelper {
             throw e;
         }
     }
+
+    public Integer updateTable(List<Boolean> tableReservationList) {
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(TABLE_COLUMN_ID, 0);
+            contentValues.put(TABLE_COLUMN_RESERVATION_ARRAY, Utils.stringify(tableReservationList));
+            return db.update(TABLE_TBL_NAME, contentValues, null, new String[]{});
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

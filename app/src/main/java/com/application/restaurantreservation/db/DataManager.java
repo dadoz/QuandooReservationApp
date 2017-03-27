@@ -42,4 +42,9 @@ public class DataManager {
     public void createAllTables(List<Boolean> items) throws Exception {
         mDbHelper.insertTables(items);
     }
+
+
+    public void updateTable(List<Boolean> items) {
+        mDbHelper.updateTable(items);
+    }
 }

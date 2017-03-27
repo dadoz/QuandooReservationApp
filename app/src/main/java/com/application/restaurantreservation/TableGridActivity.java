@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.application.restaurantreservation.adapter.TableGridAdapter;
 import com.application.restaurantreservation.components.DaggerTableComponent;
 import com.application.restaurantreservation.components.TableComponent;
+import com.application.restaurantreservation.db.DataManager;
 import com.application.restaurantreservation.modules.NetworkModule;
 import com.application.restaurantreservation.presenter.BaseView;
 import com.application.restaurantreservation.presenter.TablesPresenter;
@@ -31,6 +32,8 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
 
     @Inject
     public ReservationService service;
+    @Inject
+    public DataManager dataManager;
 
     private TablesPresenter presenter;
     private View tableGridLayout;
@@ -125,5 +128,12 @@ public class TableGridActivity extends AppCompatActivity implements BaseView, Ta
                 .show();
         ((TableGridAdapter) recyclerView.getAdapter()).selectTable(position);
         recyclerView.getAdapter().notifyDataSetChanged();
+
+        //set table as reserved
+        try {
+            dataManager.updateTable(((TableGridAdapter) recyclerView.getAdapter()).getItems());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

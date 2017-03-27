@@ -18,7 +18,6 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class ReservationService {
-    private static final String TAG = "ResService";
     /**
      * retrieve data from server
      */

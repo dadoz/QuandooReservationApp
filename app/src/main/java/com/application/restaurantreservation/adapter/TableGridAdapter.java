@@ -58,6 +58,10 @@ public class TableGridAdapter extends RecyclerView.Adapter<TableGridAdapter.View
         items.set(position, true);
     }
 
+    public List<Boolean> getItems() {
+        return items;
+    }
+
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView statusTextView;
